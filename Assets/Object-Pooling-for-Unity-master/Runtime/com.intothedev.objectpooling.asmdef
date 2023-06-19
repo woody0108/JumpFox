@@ -1,0 +1,19 @@
+{
+    "name": "com.intothedev.objectpooling",
+    "rootNamespace": "",
+    "references": [
+        "Zenject"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [
+        "Android",
+        "iOS"
+    ],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
