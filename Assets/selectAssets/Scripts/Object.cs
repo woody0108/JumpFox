@@ -6,15 +6,25 @@ public class Object : MonoBehaviour
 {
     //protected virtual
 
+   protected int flag = 0;
 
     protected float speed = 3f;
-    protected float delay = 5f;
+    protected float delay = 300f;
     // Update is called once per frame
     protected virtual void Update()
     {
-        transform.Translate(Vector2.left * speed * Time.deltaTime);
+        // transform.Translate(Vector2.left * speed * Time.deltaTime);
 
 
+    }
+
+    protected virtual void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("ResetPool"))
+        {
+            ObjectPoolingManager.Instance.Set(this.gameObject, (EObjectFlag)flag);
+
+        }
     }
 
 
@@ -29,6 +39,6 @@ public class Object : MonoBehaviour
         StartCoroutine(SetCoinCoroutine());
     }
 
-   
+
 
 }

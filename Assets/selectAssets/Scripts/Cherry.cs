@@ -4,13 +4,18 @@ using UnityEngine;
 
 public class Cherry : Object
 {
-    // Update is called once per frame
-   
-
-   
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void Start()
     {
+        flag = 0;
+    }
+
+
+
+
+
+    protected override void OnTriggerEnter2D(Collider2D collision)
+    {
+        base.OnTriggerEnter2D(collision);
         if (collision.gameObject.CompareTag("Player"))
         {
             Player.Instance.health += 5;

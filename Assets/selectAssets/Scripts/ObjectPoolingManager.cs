@@ -5,7 +5,8 @@ using UnityEngine;
 public enum EObjectFlag
 {
     coin,
-    cherry
+    cherry,
+    tile
 }
 
 public class ObjectPoolingManager : MonoBehaviour
@@ -19,19 +20,23 @@ public class ObjectPoolingManager : MonoBehaviour
     }
     #endregion
 
+
+
     public List<ObjectPool> objectPoolingList = new List<ObjectPool>();
 
-    public List<ObjectPool> projectilePoolingList = new List<ObjectPool>();
-    
-   // public List<ObjectPool> weaponPoolingList = new List<ObjectPool>();
+    public List<ObjectPool> tilePoolingList = new List<ObjectPool>();
+
+   // public List<ObjectPool> projectilePoolingList = new List<ObjectPool>();
+
+    // public List<ObjectPool> weaponPoolingList = new List<ObjectPool>();
 
 
-    [SerializeField]
+    /*[SerializeField]
     private Transform objectParent;
     [SerializeField]
     private Transform projectileParent;
     [SerializeField]
-    private Transform weaponParent;
+    private Transform weaponParent;*/
 
     #endregion
 
@@ -54,10 +59,11 @@ public class ObjectPoolingManager : MonoBehaviour
         }
 
         InitObject();
+        InitTile();
         //InitProjectile();
-       /* InitWeapon();
+        /* InitWeapon();
 
-        swordCircle.gameObject.SetActive(false);*/
+         swordCircle.gameObject.SetActive(false);*/
     }
     #endregion
 
@@ -78,31 +84,55 @@ public class ObjectPoolingManager : MonoBehaviour
         }
     }
 
+    private void InitTile()
+    {
+        for (int i = 0; i < tilePoolingList.Count; i++)     
+        {
+            for (int j = 0; j < tilePoolingList[i].initCount; j++)
+            {
+                GameObject tempGb = GameObject.Instantiate(tilePoolingList[i].copyObj, tilePoolingList[i].parent.transform);
+                //tempGb.name = j.ToString();
+                tempGb.gameObject.SetActive(false);
+                tilePoolingList[i].queue.Enqueue(tempGb);
+            }
+        }
+    }
+
+
+
     public GameObject Get(EObjectFlag flag, Vector2 pos)
     {
-        int index;
-        if (flag.Equals(EObjectFlag.coin)) index = (int)EObjectFlag.coin;
-        else index = (int)flag;
-
+        int index = (int)flag;
         GameObject tempGb;
 
-        if (objectPoolingList[index].queue.Count > 0)             // 큐에 게임 오브젝트가 남아 있을 때
+        if (index < 2)
         {
-            tempGb = objectPoolingList[index].queue.Dequeue();
-            tempGb.SetActive(true);
+           
+            if (objectPoolingList[index].queue.Count > 0)             // 큐에 게임 오브젝트가 남아 있을 때
+            {
+                tempGb = objectPoolingList[index].queue.Dequeue();
+                tempGb.SetActive(true);
+            }
+            else         // 큐에 더이상 없으면 새로 생성
+            {
+                tempGb = GameObject.Instantiate(objectPoolingList[index].copyObj, objectPoolingList[index].parent.transform);
+
+            }
         }
-        else         // 큐에 더이상 없으면 새로 생성
+        else
         {
-            tempGb = GameObject.Instantiate(objectPoolingList[index].copyObj, objectPoolingList[index].parent.transform);
-            //objectPoolingList[index].queue.Enqueue(tempGb);
+           int r = 0;
+            if (tilePoolingList[r].queue.Count > 0)             // 큐에 게임 오브젝트가 남아 있을 때
+            {
+                tempGb = tilePoolingList[r].queue.Dequeue();
+                tempGb.SetActive(true);
+            }
+            else         // 큐에 더이상 없으면 새로 생성
+            {
+                tempGb = GameObject.Instantiate(tilePoolingList[r].copyObj, tilePoolingList[r].parent.transform);
+
+            }
         }
-
-
-         /*   if (tempGb.transform.childCount > 0 && tempGb.transform.GetChild(0).GetComponent<Coin>())
-                Set(tempGb,EObjectFlag.coin);*/
-          //  tempGb.GetComponent<Coin>().SetItem(ItemDatabase.Instance.AllitemDB[Random.Range(0, 3)]);
-      
-
 
         tempGb.transform.position = pos;
 

@@ -15,10 +15,11 @@ public class Player : MonoBehaviour
 
     public int health = 100;
     public int maxHealth = 100;
+    private float speed = 3.0f;
     Rigidbody2D rb;
     bool isJumping = false;
     bool canDoubleJump = false;
-    float jumpPower = 3.5f;
+    float jumpPower = 7f;
      Animator animator;
 
     private void Awake()
@@ -55,6 +56,7 @@ public class Player : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground"))
         {
+            
             isJumping = false;
             canDoubleJump = false;
             animator.SetBool("Ground", true);
@@ -66,6 +68,7 @@ public class Player : MonoBehaviour
 
     private void Update()
     {
+        transform.Translate(Vector2.right * speed * Time.deltaTime);
         if (Input.GetMouseButtonDown(0))
         {
             if (!isJumping)
@@ -79,7 +82,13 @@ public class Player : MonoBehaviour
                Jump();
                 canDoubleJump = false;
             }
+            else
+            {
+                 
+            }
         }
+       
+
     }
 
     void Jump()

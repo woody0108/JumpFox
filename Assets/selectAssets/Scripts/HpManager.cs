@@ -15,7 +15,7 @@ public class HpManager : MonoBehaviour
     }
     #endregion
 
-    public float dampening = 5f;
+    public float dampening = 3f;
     public float changeSpeed = 0.5f;
     private Player player;
     float timeout = 0f;
@@ -62,7 +62,7 @@ public class HpManager : MonoBehaviour
         {
             timeout = 0f;
 
-            player.health -= 1; // 각 0.5초마다 체력 감소
+            player.health -= 5; // 각 0.5초마다 체력 감소
             if (player.health < 0)
                 player.health = 0;
             UpdateFillTarget();

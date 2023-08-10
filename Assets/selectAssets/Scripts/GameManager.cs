@@ -8,7 +8,8 @@ public enum EPosFlag
 {
     floor,
     middle,
-    top
+    top,
+    tile
 }
 
 public class GameManager : MonoBehaviour
@@ -56,7 +57,7 @@ public class GameManager : MonoBehaviour
             EPosFlag randomPosition = (EPosFlag)Random.Range(0, 3);
 
             // gamePos 리스트에서 랜덤한 위치 값을 가져와서 전달합니다.
-            int randomIndex = Random.Range(0, gamePos.Count);
+            int randomIndex = Random.Range(0, 3);
             objectPoolingManager.Get((EObjectFlag)Random.Range(0,2), gamePos[randomIndex].gameObject.transform.position);
 
           
